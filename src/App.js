@@ -17,6 +17,25 @@ class App extends Component {
     filter: "",
   };
 
+   // из localStorage  в state
+  componentDidMount() {
+    const contacts = localStorage.getItem("contacts");
+    const parsedContacts = JSON.parse(contacts);
+    console.log("localStorage:");
+    console.log(parsedContacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+  //из state  в localStorage
+  componentDidUpdate(prevProps, prevState) {
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+    if (nextContacts !== prevContacts) {
+      localStorage.setItem("contacts", JSON.stringify(nextContacts));
+    }
+  }
+
   //принимает state из ContactForm, делает проверку и записывает его в state App
   hendleFormSbumit = (data) => {
     const { name, number, id } = data;
